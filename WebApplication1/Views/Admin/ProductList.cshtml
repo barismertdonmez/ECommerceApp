@@ -1,0 +1,90 @@
+﻿@model ProductViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        img{
+           width: 100px;
+           height : auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Admin Products</h1>
+            <hr />
+            <div class="row my-2 ">
+                <div class="col-md-12 d-flex justify-content-end">
+                    <a class="btn btn-primary btn-lg" asp-controller="admin" asp-action="CreateProduct">Add Product</a>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td style="width:30px;">Id</td>
+                        <td style="width:100px;">Image</td>
+                        <td>Name</td>
+                        <td style="width:20px;">Price</td>
+                        <td style="width:20px;">Anasayfa</td>
+                        <td style="width:20px;">Onaylı</td>
+                        <td style="width:200px;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Products.Count() > 0)
+                    {
+                        @foreach (var item in Model.Products)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>
+                                    <img src="~/Images/@item.ImageUrl" alt="" />
+                                </td>
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>                                
+                                <td>@if(item.IsHome)
+                                    {
+                                        <i class="fa-solid fa-check" style="color:lawngreen"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-x" style="color:red"></i>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsApproved)
+                                    {
+                                        <i class="fa-solid fa-check" style="color:lawngreen"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-x" style="color:red"></i>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/admin/products/@item.Id" class="btn btn-warning">Edit</a>
+                                    <form action="/admin/deleteproduct" method="post" style="display:inline;">
+                                        <input type="hidden" name="Id"  value="@item.Id"/>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        @await Html.PartialAsync("_noProduct");
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<User>
+
+@section Css{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css" />
+}
+@section Scripts{
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>User Lİst</h1>
+            <hr />
+            <div class="row my-2 ">
+                <div class="col-md-12">
+                    <a class="btn btn-primary btn-sm" href="/admin/role/create">Create User</a>
+                        <hr />
+                </div>
+            </div>
+                <table id="myTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>FirstName</td>
+                        <td>LastName</td>
+                        <td>UserName</td>
+                        <td>Email</td>
+                        <td>EmailConfirmed</td>
+                            <td style="width: 160px;"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr class="@(item.EmailConfirmed?"":"bg-info")">
+                                <td>@item.FirstName</td>
+                                <td>@item.LastName</td>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                                <td>@item.EmailConfirmed</td>
+                                <td>
+                                    <a href="/admin/user/@item.Id" class="btn btn-warning btn-sm mr-2">Edit</a>
+
+                                    <form action="/admin/user/delete" method="POST" style="display: inline;">
+                                        <input type="hidden" name="UserId" value="@item.Id">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <h3>No Users</h3>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+

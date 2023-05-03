@@ -1,0 +1,93 @@
+﻿@model CategoryModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Product</title>
+    <style>
+        img {
+            width: 100px;
+            height: auto;
+        }
+    </style>   
+</head>
+<body>
+    <h1 class="h3">Edit Category</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="Admin" asp-action="EditCategory" method="post">
+                @*<div asp-validation-summary="All" class="text-danger"></div>*@
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <div class="form-group row">
+                    <label asp-for="Name" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" asp-for="Name">
+                        @*<span asp-validation-for="Name" class="text-danger"></span>*@
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button type="submit" class="btn btn-primary">Save Category</button>
+                    </div>
+                </div>
+                @*<div id="products">
+                    @for (int i = 0; i < Model.Products.Count; i++)
+                    {
+                        <input type="hidden" name="Products[@i].Id" value="@Model.Products[@i].Id">
+                        <input type="hidden" name="Products[@i].ImageUrl" value="@Model.Products[@i].ImageUrl">
+                        <input type="hidden" name="Products[@i].Name" value="@Model.Products[@i].Name">
+                    }
+                </div>*@
+            </form>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td style="width:30px;">Id</td>
+                                <td style="width:100px;">Image</td>
+                                <td>Name</td>
+                                <td style="width:200px;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Products.Count() > 0)
+                            {
+                                @foreach (var item in Model.Products)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>
+                                            <img src="~/Images/@item.ImageUrl" alt="" />
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>
+                                            <a href="/admin/products/@item.Id" class="btn btn-warning">Edit</a>
+                                            <form action="/admin/deletefromcategory" method="post" style="display:inline;">
+                                                <input type="hidden" name="Id" value="@item.Id" />
+                                                <input type="hidden" name="Id" value="@Model.Id" />
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                @await Html.PartialAsync("_noProduct")
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

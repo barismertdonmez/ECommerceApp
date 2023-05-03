@@ -1,0 +1,35 @@
+﻿@model ProductViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .popular {
+            color: cornflowerblue;
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    @section Header{
+    @await Html.PartialAsync("_header")
+}
+    <!--Aşağıdaki iki kullanımda birbiri ile aynıdır.-->
+    @*@await Html.PartialAsync("_header");*@
+    @*<partial name="_header">*@
+@if (Model.Products.Count == 0)
+{
+    @await Html.PartialAsync("_noProduct")
+}
+else
+{
+    <div class="row">
+        @await Html.PartialAsync("_product",Model.Products)
+    </div>
+}
+</body>
+</html>

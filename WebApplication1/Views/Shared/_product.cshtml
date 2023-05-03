@@ -1,0 +1,27 @@
+﻿@model List<Product>
+@foreach (var item in Model)
+{
+    <div class="col-md-4 my-3">
+        <div class="card">
+            <img class="card-img-top" src="~/Images/@item.ImageUrl" alt="">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <small class="text-muted">
+                    <i class="fas fa-lira-sign"></i>@item.Price
+                </small>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="shop" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Details</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display:inline">
+                        <input type="hidden" name="productId" value="@item.Id" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="btn btn-primary btn-sm">Add To Cart</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+}
+
